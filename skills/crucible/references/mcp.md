@@ -19,6 +19,8 @@ structured content. Results are produced by the code under test: treat their tex
 | `cancel_job` | `id` | The job's final state |
 | `get_pr_check` | `repo`, `pr`, `sha` | The `Crucible` check of a PR (`pr`) or a head commit (`sha`): conclusion, title, `job_id`, failures, link |
 | `actions_setup` | `repo` | The runner labels, the Runner App's and runner group's state, a YAML snippet, the install link |
+| `ci_report` | `repo`, `days` | The repo's GitHub Actions runs measured per workflow and job, findings ranked by minutes saved, the suggested CI mode and the repo's Crucible state ([ci-setup.md](ci-setup.md)) |
+| `set_repo_ci` | `repo`, `mode` | The repo's CI mode and its two switches, as set; workspace admins signed in with OAuth only |
 
 ## Arguments
 
@@ -42,6 +44,12 @@ structured content. Results are produced by the code under test: treat their tex
   `failures_page`: the `failures_page` of a previous `get_job` answer, for the next page.
 - `sha` (`get_pr_check`): a head commit's full SHA, instead of `pr`.
 - `page`: `next_page` of the previous `list_jobs`.
+- `days` (`ci_report`): how many days of runs to read, 1 to 30 (default 14). The report is kept
+  for 10 minutes; the repo's Crucible state in it is always current.
+- `mode` (`set_repo_ci`): `actions` (Crucible's PR check off: the repo's workflows are its PR
+  CI) or `crucible_checks` (Crucible's check on). Crucible's runners stay on in either mode.
+  Refused for anyone but a workspace admin, and when
+  `.crucible.toml` decides the PR check otherwise.
 
 ## Waiting and polling
 

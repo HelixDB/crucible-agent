@@ -42,10 +42,11 @@ jobs:
    Crucible runner, billed to the workspace.
 3. Change `runs-on` in the workflows. `actions_setup(repo: "OWNER/NAME")` checks steps 1 and 2 and
    returns a snippet.
-4. Per repo, the dashboard's **Actions runners** switch (https://crucibl.sh/github, on by default)
-   turns Crucible's runners off: the repo's `crucible-*` jobs get a notice instead of a runner and
-   the group leaves it out. If the repo's PR CI is these workflows, turn its **Crucible PR checks**
-   off there too.
+4. Per repo, https://crucibl.sh/github sets the repo's PR CI: **GitHub Actions** (the default:
+   these workflows, on Crucible's runners) or **Crucible check** (Crucible's own `Crucible` check
+   on every pull request; the runners stay on). The row's **Advanced** turns the **Actions
+   runners** off: the repo's `crucible-*` jobs then get a notice instead of a runner and the
+   group leaves it out.
 
 A job whose `runs-on` names a `crucible-` label that is no class (`crucible-32vcpu-arm`, or a
 class label beside another label), or that comes from an installation no workspace linked, gets

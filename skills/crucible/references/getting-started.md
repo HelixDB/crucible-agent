@@ -111,5 +111,8 @@ their own terminal: it reads the key without echo. Never ask them to paste it to
 
 ## Done
 
-Report to the human: the repo, the first run's status and `job_id`, and the next PR's check name
-(`Crucible`). For GitHub Actions runners, continue with [actions.md](actions.md).
+Report to the human: the repo and the first run's status and `job_id`. Its pull requests keep
+their GitHub Actions CI by default; for Crucible's own `Crucible` check on every pull request,
+they choose **Crucible check** for the repo at https://crucibl.sh/github. For GitHub Actions
+runners, continue with [actions.md](actions.md); to decide how the repo's CI uses Crucible and
+make it faster, with [ci-setup.md](ci-setup.md).

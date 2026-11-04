@@ -43,6 +43,8 @@ crucible status                     # who you are, the workspace, its repos' bas
 crucible status --repo OWNER/NAME
 crucible checks get OWNER/NAME --pr 123   # a PR's Crucible check (or --sha <head>)
 crucible actions setup OWNER/NAME   # runner labels, the App and group state, a snippet
+crucible ci report OWNER/NAME       # the repo's Actions runs measured, findings, the suggested mode
+crucible ci report OWNER/NAME --days 30
 crucible jobs list                  # your recent jobs
 crucible jobs list --repo OWNER/NAME --limit 50
 crucible jobs get 0192f0c4-0000-7000-8000-000000000000
@@ -57,7 +59,8 @@ crucible mcp                        # the local MCP server on stdio (below)
 
 `crucible jobs list --page <next_page>` continues a listing. Maintainer keys only, never for
 agents: `crucible run -- make check` (any command), `crucible account`, `crucible topup 20`,
-`crucible repo register`. `crucible daemon run` is what the CLI starts by itself.
+`crucible repo register`, `crucible ci set OWNER/NAME --mode actions` (a repo's CI mode:
+`actions` or `crucible_checks`). `crucible daemon run` is what the CLI starts by itself.
 
 ## Output and exit codes
 
@@ -94,6 +97,7 @@ claude mcp add --scope user crucible-local -- ~/.local/bin/crucible mcp
 | `status` | `repo` |
 | `get_pr_check` | `repo`, `pr`, `sha` |
 | `actions_setup` | `repo` |
+| `ci_report` | `repo`, `days` |
 | `account` | none |
 
 `run_tests` waits at most `wait_seconds` (≤ 45), then answers `{"status":"running","job_id":…}`;

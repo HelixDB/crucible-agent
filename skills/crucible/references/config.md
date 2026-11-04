@@ -57,7 +57,7 @@ retries = 2          # retries of a failing test, 0..=3
 quarantine = true    # tests that keep flaking stop failing runs
 
 [checks]
-pull_requests = false  # no `Crucible` PR check (default: the dashboard's switch, on)
+pull_requests = true   # Crucible's own `Crucible` PR check (default: the dashboard's choice, off)
 ```
 
 - `runner = "cargo"` alone switches a Rust repo from nextest to plain `cargo test` (no selection,
@@ -66,8 +66,9 @@ pull_requests = false  # no `Crucible` PR check (default: the dashboard's switch
   `runner` reads: cargo's `--message-format=json`, `go test -json`, jest's
   `--json --outputFile=/run/crucible/jest.json`, or for vitest, node_test and pytest a JUnit file
   at `/run/crucible/junit.xml`. Otherwise only its exit code counts.
-- `[checks] pull_requests` wins over the dashboard's **Crucible PR checks** switch when set (for
-  repos whose PR CI is GitHub Actions on Crucible runners); base builds and agent runs go on.
+- `[checks] pull_requests` wins over the dashboard's choice of the repo's PR CI when set: `true`
+  is **Crucible check**, `false` **GitHub Actions** (the default); base builds and agent runs go on
+  either way.
 - `repo = "OWNER/NAME"` at the top names the repo when the checkout has no github.com `origin`
   (CLI only).
 

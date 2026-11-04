@@ -45,6 +45,7 @@ retrying cannot help, 3 means retry with backoff, 2 means fix something first.
 | A TLS error naming the certificate (exit 64) | The config file is for another Crucible endpoint: the human deletes it, reinstalls the CLI and logs in again ([cli.md](cli.md)) |
 | `no API endpoint: …` or `no API key: …` (exit 64) | The CLI is not installed or the human has not run `crucible login` ([cli.md](cli.md)) |
 | `no git checkout … found`, `has no origin remote`, or `is not a github.com repository` (exit 64) | Run inside a checkout whose `origin` is the GitHub repo, or set `repo = "OWNER/NAME"` in `.crucible.toml` |
+| A pull request has no `Crucible` check | The repo's PR CI is GitHub Actions, the default: for Crucible's own check the human chooses **Crucible check** for the repo at https://crucibl.sh/github, or the default branch's `.crucible.toml` sets `[checks] pull_requests = true` |
 | The PR check stays queued | No credit, or the base is building: `status()` |
 | The PR check failed at once saying no base can come | The default branch's base build failed or was skipped (no test setup found, the repo quota): fix the default branch, push, re-run the check |
 | An Actions job never starts | Its label is not a `crucible-*-arm` class alone, the Runner App does not cover the repo, or the repo belongs to a personal account ([actions.md](actions.md)) |

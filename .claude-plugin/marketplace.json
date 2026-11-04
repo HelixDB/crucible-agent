@@ -1,0 +1,15 @@
+{
+  "name": "crucible-agent",
+  "description": "Crucible: run tests on fresh microVMs from your coding agent",
+  "owner": {
+    "name": "Helix DB, Inc.",
+    "url": "https://crucibl.sh"
+  },
+  "plugins": [
+    {
+      "name": "crucible",
+      "source": "./",
+      "description": "The crucible skill and the hosted Crucible MCP server (https://mcp.crucibl.sh/mcp): run tests, read PR checks, set up Actions runners"
+    }
+  ]
+}

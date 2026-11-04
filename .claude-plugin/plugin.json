@@ -1,0 +1,16 @@
+{
+  "name": "crucible",
+  "displayName": "Crucible",
+  "description": "Run a repo's tests on Crucible microVMs, read the Crucible PR check, and move GitHub Actions jobs to Crucible runners. Bundles the crucible skill and the hosted MCP server.",
+  "author": {
+    "name": "Helix DB, Inc.",
+    "url": "https://crucibl.sh"
+  },
+  "homepage": "https://crucibl.sh/agents.md",
+  "repository": "https://github.com/HelixDB/crucible-agent",
+  "documentationUrl": "https://crucibl.sh/llms.txt",
+  "privacyPolicyUrl": "https://crucibl.sh/privacy",
+  "termsOfServiceUrl": "https://crucibl.sh/terms",
+  "license": "Proprietary",
+  "keywords": ["testing", "ci", "mcp", "github-actions"]
+}

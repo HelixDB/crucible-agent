@@ -56,7 +56,8 @@ labels. Fix `runs-on` or link the installation, then re-run the workflow.
 ## What works
 
 - Private, internal and public repos the App covers; shell steps, `actions/checkout`, artifacts,
-  logs, summaries; passwordless `sudo`.
+  logs, summaries; passwordless `sudo`; 65,536 open files (soft and hard), as on GitHub's
+  hosted runners.
 - Docker: `services:`, `container:`, Docker actions, `docker build`, compose and buildx, with
   images from Docker Hub (through Crucible's mirror), ghcr.io, quay.io, mcr.microsoft.com and
   registry.k8s.io.

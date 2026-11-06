@@ -21,7 +21,8 @@ Crucible inspects the repo root and takes the first match, Rust, Go, Node, Pytho
   anonymously, never pushed): private git dependencies and private registries fail.
   No Docker and no services. Tests that need them belong on Actions runners
   ([actions.md](actions.md)).
-- Commands run as the user `runner` with passwordless `sudo`.
+- Commands run as the user `runner` with passwordless `sudo` and 65,536 open files (soft and
+  hard), as on GitHub's hosted runners.
 
 ## The base
 

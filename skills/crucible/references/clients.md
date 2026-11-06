@@ -102,8 +102,9 @@ https://crucibl.sh/skills/AGENTS.md to the repo's `AGENTS.md`.
 ## claude.ai and Claude Desktop
 
 Settings, Connectors, Add custom connector, URL `https://mcp.crucibl.sh/mcp`, then Connect. A
-connector added there also shows in Claude Code signed in to the same account. Here
-`run_tests` takes a pushed `ref`, a `pr`, or a `diff` the chat produced with its `base`.
+connector added there also shows in Claude Code signed in to the same account. A chat has no
+shell to run `create_diff_upload`'s command: there `run_tests` takes a pushed `ref`, a `pr`, or a
+`diff` the chat produced with its `base`.
 
 ## Any other agent
 

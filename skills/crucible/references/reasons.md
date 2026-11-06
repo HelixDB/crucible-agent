@@ -18,7 +18,7 @@ retrying cannot help, 3 means retry with backoff, 2 means fix something first.
 | `daily_egress_cap` | 64 | The workspace's outbound traffic for today is used up. Wait until the reset time in the detail (next UTC midnight) |
 | `key_spend_cap` | 64 | This API key's jobs reached the key's daily spend cap. Wait until the reset time in the detail (next UTC midnight), or the human issues a key with a higher cap at https://crucibl.sh/keys |
 | `starter_spend_cap` | 64 | The workspace reached its daily spend cap while on its starter credit. Wait until the reset time in the detail (next UTC midnight), or an admin adds credit at https://crucibl.sh/billing |
-| `concurrency_limit` | 3 | The workspace or key runs as many jobs as it may (4 agent jobs). Wait for one to finish, or `cancel_job` one you no longer need |
+| `concurrency_limit` | 3 | The workspace or key runs as many jobs as it may (20 at once by default; a large VM counts as 4). Wait for one to finish, or `cancel_job` one you no longer need |
 | `rate_limited` | 3 | Too many new jobs per second. Retry after the milliseconds in the detail |
 | `queue_full` | 3 | Every slot is busy and the queue is full. Retry in a minute or two |
 | `queue_timeout` | 3 | The job waited 15 min in the queue. Retry later |
@@ -28,7 +28,7 @@ retrying cannot help, 3 means retry with backoff, 2 means fix something first.
 | `missing_blobs` | 3 | Uploaded files expired before the job started. Run again |
 | `stale_base` | 3 | The repo's base changed while submitting. Run again |
 | `unknown_commit` | 64 | GitHub has no such commit, branch, tag or pull request in the repo (`ref`, `pr` or `base`). Push it first, or fix the name |
-| `patch_rejected` | 64 | The `diff` cannot become a run; the detail starts with why: `malformed`, `binary`, `too_large`, `does_not_apply` (make `base` the commit the diff was made against) or `base_too_far`. For binary or large changes, or a far base, use the CLI's `crucible test` |
+| `patch_rejected` | 64 | The `diff` (or `diff_upload`) cannot become a run; the detail starts with why: `malformed`, `binary`, `too_large`, `does_not_apply` (make `base` the commit the diff was made against) or `base_too_far`. For binary or large changes, or a far base, use the CLI's `crucible test` |
 | `unknown_job` | 64 | No such job, or it is not yours. Check the `job_id` |
 | `custom_command_forbidden` | 64 | Agent keys run only the repo's detected tests: use `crucible test`, never `crucible run -- <cmd>` |
 | `scope_forbidden` | 64 | The call needs a maintainer key. Do not get one: ask the human to do it themselves |
@@ -40,6 +40,8 @@ retrying cannot help, 3 means retry with backoff, 2 means fix something first.
 | The MCP tools answer HTTP 401, or the client says the server needs sign-in | Ask the human to sign in (Claude Code: `/mcp`, then `crucible`) ([clients.md](clients.md)) |
 | `status()` shows no workspace | The human creates one at https://crucibl.sh/start (or, where it shows Request access, writes to access@crucibl.sh) |
 | The diff does not apply | Make `ref` the commit the diff was made against (`git merge-base HEAD origin/HEAD`), and pushed |
+| `create_diff_upload`'s command prints `"ok":false` | Act on its `error`: `empty_diff` (nothing changed against the base, or `git diff` failed: run it in the repo's root, `git fetch origin <base>`), `expired` or `different_diff` (a new `create_diff_upload`), `too_large` or `not_text` (the CLI), `rate_limited` (wait `Retry-After`). If curl cannot reach the URL at all, pass the diff as `diff` |
+| `run_tests` says the `diff_upload` was never uploaded, expired, already run, or is of another repo or base | Never uploaded: run the command first. Expired or already run: a new `create_diff_upload` and its command. Another repo or base: pass the ones the upload was made for |
 | `API: … Unauthenticated` from the CLI (exit 64) | The key is missing, revoked or mistyped: the human runs `crucible login` in their terminal with a new agent key from https://crucibl.sh/keys |
 | `API: … PermissionDenied` (exit 64) | The key cannot do this: agent keys run tests and read their own jobs |
 | A TLS error naming the certificate (exit 64) | The config file is for another Crucible endpoint: the human deletes it, reinstalls the CLI and logs in again ([cli.md](cli.md)) |

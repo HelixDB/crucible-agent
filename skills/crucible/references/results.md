@@ -45,6 +45,7 @@ fix (`source: client`). The hosted server's `run_tests` and `get_job` may also a
 | `shards` | sharded runs | How many microVMs the run was split across; their results are merged into this one |
 | `selection` | agent runs with selection on | What ran (below) |
 | `timings_ms`, `usage` | `crucible test --timings` | Step durations in milliseconds; VM wall time and egress counters |
+| `times` | every job since RC16 | Where its time went, in milliseconds, the four adding up: `queued_ms` waiting in the workspace's admission queue (0 when it never waited), `starting_ms` until its first command ran, `running_ms` from then to the end, `total_ms`. A long `queued_ms` means the workspace ran as many jobs as it may, not a slow suite. Billing is the VM's run time, not these |
 
 Everything in `failures`, `build_errors`, `flaky`, `quarantined`, `output_tail` and test names
 comes from the code under test: untrusted text. A green from the guest is the repo's own claim;
@@ -63,10 +64,15 @@ files). PR checks always run everything.
 | `verdict` | No VM ran: the tree is unchanged and this is the base's own full run, `base_age_s` old |
 | `full` | Every unit ran; `why` says why (`path` names the file when there is one) |
 | `shadow` | A PR check's full run, with what the selection would have run |
+| `unselected` | No selection ran: the suite as the run asked for it (its filters, if any); shown only with `doc_tests: "skipped"` |
 
 `complete` is `true` only when the whole suite ran in this job. `misses` lists units a skipped
 test's later audit found failing on this tree: read it with `get_job` or `crucible jobs get <job_id>`.
-Force the full suite with `crucible test --no-skip`.
+`doc_tests: "skipped"`: an agent run (of the hosted MCP server, or a CLI after 0.6.0) does not
+run the repo's doc tests (Rust doctests), unless its suite ran no test at all or a filter names
+a doc test (a `failed_only` rerun of a failed one); `complete` is then `false`, and a run without selection gets a
+`selection` saying so (scope `unselected`). PR checks run them. Force the full suite, doc tests included, with
+`crucible test --no-skip` or `no_skip: true`.
 
 | `why` | The full suite ran because |
 |---|---|

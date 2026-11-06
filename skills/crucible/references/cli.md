@@ -33,7 +33,7 @@ crucible test                       # the detected suite (affected tests only, w
 crucible test -- tests::adds        # only tests matching a filter (several allowed)
 crucible test --failed-first        # the last run's failures first, then the rest
 crucible test --fail-fast           # stop at the first failure
-crucible test --no-skip             # the full suite: no affected-test selection
+crucible test --no-skip             # the full suite, doc tests included: no affected-test selection
 crucible test --stream-output       # the test output on stderr as it runs
 crucible test --timings             # add per-step timings and usage to the result
 crucible test -C ../other-repo      # as if started in that directory
@@ -51,6 +51,9 @@ crucible jobs get 0192f0c4-0000-7000-8000-000000000000
 crucible jobs get 0192f0c4-0000-7000-8000-000000000000 --timings
 crucible jobs get 0192f0c4-0000-7000-8000-000000000000 --wait 45
 crucible jobs cancel 0192f0c4-0000-7000-8000-000000000000
+crucible jobs logs 0192f0c4-0000-7000-8000-000000000000 --grep 'FAIL|panicked'   # a page of its log
+crucible jobs logs 0192f0c4-0000-7000-8000-000000000000 --from 900 --limit 100
+crucible feedback --kind wrong_result --job 0192f0c4-0000-7000-8000-000000000000 MESSAGE   # what you expected, what happened
 crucible login                      # the human, in their own terminal
 crucible daemon status              # the background daemon the CLI starts
 crucible daemon stop
@@ -94,6 +97,8 @@ claude mcp add --scope user crucible-local -- ~/.local/bin/crucible mcp
 | `get_job` | `id`, `wait_seconds`, `failures_page` |
 | `list_jobs` | `page` |
 | `cancel_job` | `id` |
+| `get_job_logs` | `id`, `from`, `limit`, `grep`, `ignore_case` |
+| `send_feedback` | `kind`, `message`, `job_id`, `tool` |
 | `status` | `repo` |
 | `get_pr_check` | `repo`, `pr`, `sha` |
 | `actions_setup` | `repo` |

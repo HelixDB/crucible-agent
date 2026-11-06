@@ -58,6 +58,10 @@ quarantine = true    # tests that keep flaking stop failing runs
 
 [checks]
 pull_requests = true   # Crucible's own `Crucible` PR check (default: the dashboard's choice, off)
+
+[resources]
+size = "large"            # every job and base build of the repo on 8 vCPU / 16 GiB
+build_timeout_secs = 2700 # base builds, 15..=3600, default 1800
 ```
 
 - `runner = "cargo"` alone switches a Rust repo from nextest to plain `cargo test` (no selection,
@@ -71,6 +75,9 @@ pull_requests = true   # Crucible's own `Crucible` PR check (default: the dashbo
   either way.
 - `repo = "OWNER/NAME"` at the top names the repo when the checkout has no github.com `origin`
   (CLI only).
+- `[resources] size`: `"standard"` (the default: 2 vCPU / 4 GiB, $0.0025 a minute) or `"large"`
+  (8 vCPU / 16 GiB, $0.01 a minute; it counts as 4 of the workspace's concurrent jobs). Both are
+  Arm at $0.00125 per vCPU-minute, billed per second.
 
 ## Shards
 

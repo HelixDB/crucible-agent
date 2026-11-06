@@ -194,8 +194,11 @@ When asked to set up Crucible for a repo's CI, or to make CI faster or cheaper, 
 
 ## Credit and limits
 
-- Runs are billed per second from prepaid credit: $0.00125 per vCPU-minute on ARM. `status()`
-  says when the workspace is out of credit; an admin adds credit at https://crucibl.sh/billing.
+- Runs are billed per second (5 s at least) from prepaid credit: $0.00125 per vCPU-minute on
+  ARM, so $0.0025 a minute on a standard VM (2 vCPU) and $0.01 a minute on a large one (8 vCPU,
+  `[resources] size = "large"`). Base builds are billed the same way. A run cancelled once its
+  VM started is billed for the time it ran. `status()` says when the workspace is out of credit;
+  an admin adds credit at https://crucibl.sh/billing.
 - A workspace created at https://crucibl.sh/start (where sign-up is open) gets $100 of starter
   credit once, when an admin first connects the Helix Crucible App on a repo. It expires after 30
   days; until the workspace buys credit it spends at most $25 a day.

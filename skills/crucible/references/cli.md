@@ -79,7 +79,8 @@ waits go to stderr (`crucible: queued, position 3, ETA ~40 s`). Branch on the ex
 | 64 | Usage, configuration, or a refusal retrying cannot fix: `reason` says what to do ([reasons.md](reasons.md)) |
 
 A busy cell queues the job (at most 15 min); the CLI waits through a base build of the repo and
-reconnects after an API restart, keeping its place. Ctrl-C cancels the job at no cost.
+reconnects after an API restart, keeping its place. Ctrl-C cancels the job: free while it waits
+in the queue; once its VM started it is billed for the time it ran (5 s at least).
 
 ## The local MCP server
 
